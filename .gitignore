@@ -1,0 +1,4 @@
+# eclipse files
+.settings/
+.project
+**/.*.md.html
