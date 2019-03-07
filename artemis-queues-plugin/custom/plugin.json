@@ -1,0 +1,232 @@
+{
+  "version": "1.0.0",
+  "name": "com.vegardit.dt_plugin.ActiveMQ_Artemis_Queues",
+  "type": "JMX",
+  "processTypes": [ 10 ],
+  "entity": "PROCESS_GROUP_INSTANCE",
+  "metricGroup": "artemis_queue",
+
+  "configUI": {
+    "displayName": "ActiveMQ Artemis Queues"
+  },
+
+
+  "ui": {
+    "charts": [
+      {"group":"ActiveMQ Artemis Queues", "title":"Message Count",                      "series": [{"key":"MessageCountByQueue",             "aggregation":"max", "displayname":"Message Count"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Expired Message Count",              "series": [{"key":"MessageExpiredCountByQueue",      "aggregation":"max", "displayname":"Message Expired Count"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Messages Added",                     "series": [{"key":"MessagesAddedByQueue",            "aggregation":"max", "displayname":"Messages Added"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Messages Added Rate (msg/s)",        "series": [{"key":"MessagesAddedRateByQueue",        "aggregation":"max", "displayname":"Messages Added Rate"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Messages Acknowledged",              "series": [{"key":"MessagesAcknowledgedByQueue",     "aggregation":"max", "displayname":"Messages Acknowledged"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Messages Acknowledged Rate (msg/s)", "series": [{"key":"MessagesAcknowledgedRateByQueue", "aggregation":"max", "displayname":"Messages Acknowledged Rate"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Consumer Count",                     "series": [{"key":"ConsumerCountByQueue",            "aggregation":"max", "displayname":"Consumer Count"}]}
+    ]
+  },
+
+
+  "metrics": [
+    {
+      "timeseries": {
+        "key": "MessageCountByQueue",
+        "displayname" : "Message Count By Queue",
+        "unit": "Count",
+        "dimensions": [ "rx_pid", "queue" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "\"localhost\"",
+          "component": "addresses",
+          "address": "*",
+          "subcomponent": "queues",
+          "routing-type": "\"anycast\"",
+          "queue": "*"
+        },
+        "allowAdditionalKeys": true,
+        "attribute": "MessageCount",
+        "calculateDelta": false,
+        "calculateRate": false,
+        "aggregation": "AVG",
+        "splitting": {
+          "name": "queue",
+          "type": "keyProperty",
+          "keyProperty": "queue"
+        }
+      }
+    },
+    {
+      "timeseries": {
+        "key": "MessageExpiredCountByQueue",
+        "displayname" : "Message Expired Count By Queue",
+        "unit": "Count",
+        "dimensions": [ "rx_pid", "queue" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "\"localhost\"",
+          "component": "addresses",
+          "address": "*",
+          "subcomponent": "queues",
+          "routing-type": "\"anycast\"",
+          "queue": "*"
+        },
+        "allowAdditionalKeys": true,
+        "attribute": "MessagesExpired",
+        "calculateDelta": true,
+        "calculateRate": false,
+        "aggregation": "MAX",
+        "splitting": {
+          "name": "queue",
+          "type": "keyProperty",
+          "keyProperty": "queue"
+        }
+      }
+    },
+    {
+      "timeseries": {
+        "key": "MessagesAddedByQueue",
+        "unit": "Count",
+        "displayname": "Messages Added By Queue",
+        "dimensions": [ "rx_pid", "queue" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "\"localhost\"",
+          "component": "addresses",
+          "address": "*",
+          "subcomponent": "queues",
+          "routing-type": "\"anycast\"",
+          "queue": "*"
+        },
+        "attribute": "MessagesAdded",
+        "allowAdditionalKeys": true,
+        "calculateDelta": true,
+        "calculateRate": false,
+        "aggregation": "MAX",
+        "splitting": {
+          "name": "queue",
+          "type": "keyProperty",
+          "keyProperty": "queue"
+        }
+      }
+    },
+    {
+      "timeseries": {
+        "key": "MessagesAddedRateByQueue",
+        "unit": "Count",
+        "displayname": "Messages Added Rate By Queue",
+        "dimensions": [ "rx_pid", "queue" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "\"localhost\"",
+          "component": "addresses",
+          "address": "*",
+          "subcomponent": "queues",
+          "routing-type": "\"anycast\"",
+          "queue": "*"
+        },
+        "attribute": "MessagesAdded",
+        "allowAdditionalKeys": true,
+        "calculateDelta": true,
+        "calculateRate": true,
+        "aggregation": "MAX",
+        "splitting": {
+          "name": "queue",
+          "type": "keyProperty",
+          "keyProperty": "queue"
+        }
+      }
+    },
+    {
+      "timeseries": {
+        "key": "MessagesAcknowledgedByQueue",
+        "unit": "Count",
+        "displayname": "Messages Acknowledged By Queue",
+        "dimensions": [ "rx_pid", "queue" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "\"localhost\"",
+          "component": "addresses",
+          "address": "*",
+          "subcomponent": "queues",
+          "routing-type": "\"anycast\"",
+          "queue": "*"
+        },
+        "attribute": "MessagesAcknowledged",
+        "allowAdditionalKeys": true,
+        "calculateDelta": true,
+        "calculateRate": false,
+        "aggregation": "MAX",
+        "splitting": {
+          "name": "queue",
+          "type": "keyProperty",
+          "keyProperty": "queue"
+        }
+      }
+    },
+    {
+      "timeseries": {
+        "key": "MessagesAcknowledgedRateByQueue",
+        "unit": "Count",
+        "displayname": "Messages Acknowledged Rate By Queue",
+        "dimensions": [ "rx_pid", "queue" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "\"localhost\"",
+          "component": "addresses",
+          "address": "*",
+          "subcomponent": "queues",
+          "routing-type": "\"anycast\"",
+          "queue": "*"
+        },
+        "attribute": "MessagesAcknowledged",
+        "allowAdditionalKeys": true,
+        "calculateDelta": true,
+        "calculateRate": true,
+        "aggregation": "MAX",
+        "splitting": {
+          "name": "queue",
+          "type": "keyProperty",
+          "keyProperty": "queue"
+        }
+      }
+    },
+    {
+      "timeseries": {
+        "key": "ConsumerCountByQueue",
+        "unit": "Count",
+        "displayname": "Consumer Count By Queue",
+        "dimensions": [ "rx_pid" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "\"localhost\"",
+          "component": "addresses",
+          "address": "*",
+          "subcomponent": "queues",
+          "routing-type": "\"anycast\"",
+          "queue": "*"
+        },
+        "attribute": "ConsumerCount",
+        "allowAdditionalKeys": true,
+        "calculateDelta": false,
+        "calculateRate": false,
+        "aggregation": "AVG",
+        "splitting": {
+          "name": "queue",
+          "type": "keyProperty",
+          "keyProperty": "queue"
+        }
+      }
+    }
+  ]
+}
