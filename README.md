@@ -14,6 +14,12 @@
 
 Custom [Dynatrace](https://www.dynatrace.de/) [JMX](https://en.wikipedia.org/wiki/Java_Management_Extensions) plug-ins for [ActiveMQ Artemis](https://github.com/apache/activemq-artemis) broker processes.
 
+The **Artemis Overview Plugin** provides general broker statistics such as address memory usage, connection/consumer count, total message count, total messages added/acknowledged rate.
+
+The **Artemis Queues Plugin** provides detailed per-queue statistics such as current message count, messages added/acknowledged rate, consumer counts.\
+
+**IMPORTANT:** Activating the **Artemis Queues Plugin** on brokers with a VERY large number of queues may result in an overload of the broker process (100% CPU usage, denial of service) caused by the thousands of periodic JMX requests made by Dynatrace.
+
 
 ## <a name="install"></a>Installation
 
