@@ -6,5 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/) and
 
 ## [Unreleased]
 
+### Changed
+- replace deprecated "processTypes" selector with "technologies"
+
+## [1.0.0] - 2019-03-07
+
 ### Added
 - Initial release
+
