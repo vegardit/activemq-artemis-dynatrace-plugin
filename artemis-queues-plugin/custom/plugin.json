@@ -35,7 +35,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\"",
+          "broker": "*",
           "component": "addresses",
           "address": "*",
           "subcomponent": "queues",
@@ -64,7 +64,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\"",
+          "broker": "*",
           "component": "addresses",
           "address": "*",
           "subcomponent": "queues",
@@ -93,7 +93,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\"",
+          "broker": "*",
           "component": "addresses",
           "address": "*",
           "subcomponent": "queues",
@@ -122,7 +122,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\"",
+          "broker": "*",
           "component": "addresses",
           "address": "*",
           "subcomponent": "queues",
@@ -151,7 +151,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\"",
+          "broker": "*",
           "component": "addresses",
           "address": "*",
           "subcomponent": "queues",
@@ -180,7 +180,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\"",
+          "broker": "*",
           "component": "addresses",
           "address": "*",
           "subcomponent": "queues",
@@ -209,7 +209,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\"",
+          "broker": "*",
           "component": "addresses",
           "address": "*",
           "subcomponent": "queues",

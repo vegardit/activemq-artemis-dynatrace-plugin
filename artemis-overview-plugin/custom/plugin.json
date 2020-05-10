@@ -35,7 +35,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\""
+          "broker": "*"
         },
         "attribute": "AddressMemoryUsage",
         "allowAdditionalKeys": false,
@@ -54,7 +54,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\""
+          "broker": "*"
         },
         "attribute": "AddressMemoryUsagePercentage",
         "allowAdditionalKeys": false,
@@ -73,7 +73,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\""
+          "broker": "*"
         },
         "attribute": "ConnectionCount",
         "allowAdditionalKeys": false,
@@ -92,7 +92,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\""
+          "broker": "*"
         },
         "attribute": "TotalConsumerCount",
         "allowAdditionalKeys": false,
@@ -111,7 +111,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\""
+          "broker": "*"
         },
         "attribute": "TotalMessagesAdded",
         "allowAdditionalKeys": false,
@@ -130,7 +130,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\""
+          "broker": "*"
         },
         "attribute": "TotalMessagesAcknowledged",
         "allowAdditionalKeys": false,
@@ -149,7 +149,7 @@
       "source": {
         "domain": "org.apache.activemq.artemis",
         "keyProperties": {
-          "broker": "\"localhost\""
+          "broker": "*"
         },
         "attribute": "TotalMessageCount",
         "allowAdditionalKeys": false,
