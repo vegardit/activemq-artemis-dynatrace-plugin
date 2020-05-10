@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "name": "com.vegardit.dt_plugin.ActiveMQ_Artemis_Queues",
+  "name": "custom.jmx.vegardit.ActiveMQ_Artemis_Queues",
   "type": "JMX",
   "technologies": [ "ACTIVE_MQ", "ARTEMIS", "JAVA" ],
   "entity": "PROCESS_GROUP_INSTANCE",
-  "metricGroup": "artemis_queue",
+  "metricGroup": "activemq.artemis.queues",
 
   "configUI": {
     "displayName": "ActiveMQ Artemis Queues"
