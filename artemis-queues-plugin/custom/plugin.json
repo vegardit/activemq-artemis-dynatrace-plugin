@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "name": "custom.jmx.vegardit.ActiveMQ_Artemis_Queues",
   "type": "JMX",
-  "technologies": [ "ACTIVE_MQ", "ARTEMIS", "JAVA" ],
+  "technologies": [ "ACTIVE_MQ" ],
   "entity": "PROCESS_GROUP_INSTANCE",
   "metricGroup": "activemq.artemis.queues",
 
