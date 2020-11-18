@@ -41,7 +41,10 @@ artemis-queues-plugin.zip
      |- plugin.json
 ```
 
-2. The plugin zip file can then be installed via **Manage > Settings > Monitoring > Monitored Technologies > Add new technology monitoring > Upload extension**
+2. The plugin zip file can then be installed via **Manage > Settings > Monitoring > Monitored Technologies > Custom extensions > Upload extension**
+
+![](img/install_plugin.png)
+
 
 ## <a name="update"></a>Update
 
@@ -56,6 +59,7 @@ The plugins can be updated via: **Manage > Settings > Monitoring > Monitored Tec
 - [Example JMX plugins](https://github.com/Dynatrace/JMX-Extensions)
 - [Dynatrace Plugin SDK](https://dynatrace.github.io/plugin-sdk/index.html)
    - [Plugin.json reference](https://dynatrace.github.io/plugin-sdk/api/plugin_json_apidoc.html)
+   - [Plugin Lifecycle / Activation](https://dynatrace.github.io/plugin-sdk/plugin_lifecycle/index.html#plugin-activation)
    - [Known Technologies](https://dynatrace.github.io/plugin-sdk/api/known_technologies.html)
    - [Known Process Types](https://dynatrace.github.io/plugin-sdk/api/known_process.html)
 - Artemis MBeans:
