@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "name": "custom.jmx.vegardit.ActiveMQ_Artemis_Queues",
   "type": "JMX",
   "technologies": [ "ACTIVE_MQ" ],
@@ -13,13 +13,14 @@
 
   "ui": {
     "charts": [
+      {"group":"ActiveMQ Artemis Queues", "title":"Consumer Count",                     "series": [{"key":"ConsumerCountByQueue",            "aggregation":"max", "displayname":"Consumer Count"}]},
       {"group":"ActiveMQ Artemis Queues", "title":"Message Count",                      "series": [{"key":"MessageCountByQueue",             "aggregation":"max", "displayname":"Message Count"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Expired Message Count",              "series": [{"key":"MessageExpiredCountByQueue",      "aggregation":"max", "displayname":"Message Expired Count"}]},
       {"group":"ActiveMQ Artemis Queues", "title":"Messages Added",                     "series": [{"key":"MessagesAddedByQueue",            "aggregation":"max", "displayname":"Messages Added"}]},
       {"group":"ActiveMQ Artemis Queues", "title":"Messages Added Rate (msg/s)",        "series": [{"key":"MessagesAddedRateByQueue",        "aggregation":"max", "displayname":"Messages Added Rate"}]},
       {"group":"ActiveMQ Artemis Queues", "title":"Messages Acknowledged",              "series": [{"key":"MessagesAcknowledgedByQueue",     "aggregation":"max", "displayname":"Messages Acknowledged"}]},
       {"group":"ActiveMQ Artemis Queues", "title":"Messages Acknowledged Rate (msg/s)", "series": [{"key":"MessagesAcknowledgedRateByQueue", "aggregation":"max", "displayname":"Messages Acknowledged Rate"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Consumer Count",                     "series": [{"key":"ConsumerCountByQueue",            "aggregation":"max", "displayname":"Consumer Count"}]}
+      {"group":"ActiveMQ Artemis Queues", "title":"Messages Expired",                   "series": [{"key":"MessagesExpiredByQueue",          "aggregation":"max", "displayname":"Message Expired"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Messages Killed",                    "series": [{"key":"MessagesKilledByQueue",           "aggregation":"max", "displayname":"Message Killed"}]}
     ]
   },
 
@@ -27,10 +28,10 @@
   "metrics": [
     {
       "timeseries": {
-        "key": "MessageCountByQueue",
-        "displayname" : "Message Count By Queue",
+        "key": "ConsumerCountByQueue",
         "unit": "Count",
-        "dimensions": [ "rx_pid", "queue" ]
+        "displayname": "Consumer Count by Queue",
+        "dimensions": [ "rx_pid" ]
       },
       "source": {
         "domain": "org.apache.activemq.artemis",
@@ -42,8 +43,8 @@
           "routing-type": "\"anycast\"",
           "queue": "*"
         },
+        "attribute": "ConsumerCount",
         "allowAdditionalKeys": true,
-        "attribute": "MessageCount",
         "calculateDelta": false,
         "calculateRate": false,
         "aggregation": "AVG",
@@ -56,8 +57,8 @@
     },
     {
       "timeseries": {
-        "key": "MessageExpiredCountByQueue",
-        "displayname" : "Message Expired Count By Queue",
+        "key": "MessageCountByQueue",
+        "displayname" : "Message Count by Queue",
         "unit": "Count",
         "dimensions": [ "rx_pid", "queue" ]
       },
@@ -71,11 +72,11 @@
           "routing-type": "\"anycast\"",
           "queue": "*"
         },
+        "attribute": "MessageCount",
         "allowAdditionalKeys": true,
-        "attribute": "MessagesExpired",
-        "calculateDelta": true,
+        "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "MAX",
+        "aggregation": "AVG",
         "splitting": {
           "name": "queue",
           "type": "keyProperty",
@@ -87,7 +88,7 @@
       "timeseries": {
         "key": "MessagesAddedByQueue",
         "unit": "Count",
-        "displayname": "Messages Added By Queue",
+        "displayname": "Messages Added by Queue",
         "dimensions": [ "rx_pid", "queue" ]
       },
       "source": {
@@ -116,7 +117,7 @@
       "timeseries": {
         "key": "MessagesAddedRateByQueue",
         "unit": "Count",
-        "displayname": "Messages Added Rate By Queue",
+        "displayname": "Messages Added Rate by Queue",
         "dimensions": [ "rx_pid", "queue" ]
       },
       "source": {
@@ -145,7 +146,7 @@
       "timeseries": {
         "key": "MessagesAcknowledgedByQueue",
         "unit": "Count",
-        "displayname": "Messages Acknowledged By Queue",
+        "displayname": "Messages Acknowledged by Queue",
         "dimensions": [ "rx_pid", "queue" ]
       },
       "source": {
@@ -174,7 +175,7 @@
       "timeseries": {
         "key": "MessagesAcknowledgedRateByQueue",
         "unit": "Count",
-        "displayname": "Messages Acknowledged Rate By Queue",
+        "displayname": "Messages Acknowledged Rate by Queue",
         "dimensions": [ "rx_pid", "queue" ]
       },
       "source": {
@@ -201,10 +202,10 @@
     },
     {
       "timeseries": {
-        "key": "ConsumerCountByQueue",
+        "key": "MessagesExpiredByQueue",
+        "displayname" : "Messages Expired by Queue",
         "unit": "Count",
-        "displayname": "Consumer Count By Queue",
-        "dimensions": [ "rx_pid" ]
+        "dimensions": [ "rx_pid", "queue" ]
       },
       "source": {
         "domain": "org.apache.activemq.artemis",
@@ -216,11 +217,40 @@
           "routing-type": "\"anycast\"",
           "queue": "*"
         },
-        "attribute": "ConsumerCount",
+        "attribute": "MessagesExpired",
         "allowAdditionalKeys": true,
-        "calculateDelta": false,
+        "calculateDelta": true,
         "calculateRate": false,
-        "aggregation": "AVG",
+        "aggregation": "MAX",
+        "splitting": {
+          "name": "queue",
+          "type": "keyProperty",
+          "keyProperty": "queue"
+        }
+      }
+    },
+    {
+      "timeseries": {
+        "key": "MessagesKilledByQueue",
+        "displayname" : "Messages Killed by Queue",
+        "unit": "Count",
+        "dimensions": [ "rx_pid", "queue" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "*",
+          "component": "addresses",
+          "address": "*",
+          "subcomponent": "queues",
+          "routing-type": "\"anycast\"",
+          "queue": "*"
+        },
+        "attribute": "MessagesKilled",
+        "allowAdditionalKeys": true,
+        "calculateDelta": true,
+        "calculateRate": false,
+        "aggregation": "MAX",
         "splitting": {
           "name": "queue",
           "type": "keyProperty",

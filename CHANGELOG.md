@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/) and
 
 ## [Unreleased]
 
+
+### Added
+- add "Messages Killed" metric to queues plugin
+
+
 ## [2.0.0] - 2020-05-10
 
 ### Changed
