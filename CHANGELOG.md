@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and
 
 
 ### Added
+- add "Disk Store Usage (%)" metric to overview plugin
 - add "Messages Killed" metric to queues plugin
 
 

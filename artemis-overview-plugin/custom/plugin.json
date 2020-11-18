@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "name": "custom.jmx.vegardit.ActiveMQ_Artemis_Overview",
   "type": "JMX",
   "technologies": [ "ACTIVE_MQ" ],
@@ -19,7 +19,8 @@
       {"group":"ActiveMQ Artemis Overview", "title":"Consumer Count",                     "series": [{"key":"ConsumerCount",                "aggregation":"max", "displayname":"Consumer Count"}]},
       {"group":"ActiveMQ Artemis Overview", "title":"Messages Added Rate (msg/s)",        "series": [{"key":"MessagesAddedRate",            "aggregation":"max", "displayname":"Messages Added Rate"}]},
       {"group":"ActiveMQ Artemis Overview", "title":"Messages Acknowledged Rate (msg/s)", "series": [{"key":"MessagesAcknowledgedRate",     "aggregation":"max", "displayname":"Messages Acknowledged Rate"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Message Count",                      "series": [{"key":"MessageCount",                 "aggregation":"max", "displayname":"Message Count"}]}
+      {"group":"ActiveMQ Artemis Overview", "title":"Message Count",                      "series": [{"key":"MessageCount",                 "aggregation":"max", "displayname":"Message Count"}]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Disk Store Usage",                   "series": [{"key":"DiskStoreUsagePercentage",     "aggregation":"max", "displayname":"Disk Store Usage (%)"}]}
     ]
   },
 
@@ -152,6 +153,25 @@
           "broker": "*"
         },
         "attribute": "TotalMessageCount",
+        "allowAdditionalKeys": false,
+        "calculateDelta": false,
+        "calculateRate": false,
+        "aggregation": "AVG"
+      }
+    },
+    {
+      "timeseries": {
+        "key": "DiskStoreUsagePercentage",
+        "unit": "Percent",
+        "displayname": "Disk Store Usage (%)",
+        "dimensions": [ "rx_pid" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "*"
+        },
+        "attribute": "DiskStoreUsage",
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
