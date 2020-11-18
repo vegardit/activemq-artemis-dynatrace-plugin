@@ -7,8 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/) and
 ## [Unreleased]
 
 
+## [2.1.0] - 2020-11-18
+
 ### Added
 - add "Disk Store Usage (%)" metric to overview plugin
+- add "Address/Queue count" metrics to overview plugin
 - add "Messages Killed" metric to queues plugin
 
 
