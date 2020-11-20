@@ -1,5 +1,6 @@
 # ActiveMQ Artemis plugins for Dynatrace
 
+[![Build Status](https://img.shields.io/github/workflow/status/vegardit/activemq-artemis-dynatrace-plugin/Build)](https://github.com/vegardit/activemq-artemis-dynatrace-plugin/actions?query=workflow%3A%22Build%22)
 [![License](https://img.shields.io/github/license/vegardit/activemq-artemis-dynatrace-plugin.svg?label=license)](#license)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
@@ -29,17 +30,9 @@ This provides detailed per-queue statistics such as current message count, messa
 
 ## <a name="install"></a>Installation
 
-1. The plugin.json file must be added to a zip file containing a single folder named `custom` which contains the plugin.json. E.g.
-
-```
-artemis-overview-plugin.zip
-  |- custom/
-     |- plugin.json
-
-artemis-queues-plugin.zip
-  |- custom/
-     |- plugin.json
-```
+1. You can download the latest version of the plugins here:
+   * [artemis-overview-plugin-latest.zip](https://github.com/vegardit/activemq-artemis-dynatrace-plugin/releases/download/latest/artemis-overview-plugin-latest.zip)
+   * [artemis-queues-plugin-latest.zip](https://github.com/vegardit/activemq-artemis-dynatrace-plugin/releases/download/latest/artemis-queues-plugin-latest.zip)
 
 2. The plugin zip file can then be installed via **Manage > Settings > Monitoring > Monitored Technologies > Custom extensions > Upload extension**
 
