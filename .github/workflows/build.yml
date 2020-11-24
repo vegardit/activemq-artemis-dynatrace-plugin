@@ -64,11 +64,14 @@ jobs:
 
         mkdir /tmp/custom
 
+        # use last commit time unix epoch value as minor version
+        minor_version=$(git show -s --format=%ct)
+
         # suffix the version with the commit SHA
-        jq ".version = .version + \".$GITHUB_SHA\"" artemis-overview-plugin/custom/plugin.json > /tmp/custom/plugin.json
+        jq ".version = .version + \".$minor_version\"" artemis-overview-plugin/custom/plugin.json > /tmp/custom/plugin.json
         (cd /tmp && zip -r ./artemis-overview-plugin.zip ./custom/*)
 
-        jq ".version = .version + \".$GITHUB_SHA\"" artemis-queues-plugin/custom/plugin.json > /tmp/custom/plugin.json
+        jq ".version = .version + \".$minor_version\"" artemis-queues-plugin/custom/plugin.json > /tmp/custom/plugin.json
         (cd /tmp && zip -r ./artemis-queues-plugin.zip ./custom/*)
 
     - name: Create "latest" Release

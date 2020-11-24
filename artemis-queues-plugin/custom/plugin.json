@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "2.1",
   "name": "custom.jmx.vegardit.ActiveMQ_Artemis_Queues",
   "type": "JMX",
   "technologies": [ "ACTIVE_MQ" ],
