@@ -1,5 +1,5 @@
 {
-  "version": "2.1",
+  "version": "2.2",
   "name": "custom.jmx.vegardit.ActiveMQ_Artemis_Queues",
   "type": "JMX",
   "technologies": [ "ACTIVE_MQ" ],
@@ -47,7 +47,7 @@
         "allowAdditionalKeys": true,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG",
+        "aggregation": "MAX",
         "splitting": {
           "name": "queue",
           "type": "keyProperty",
@@ -76,7 +76,7 @@
         "allowAdditionalKeys": true,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG",
+        "aggregation": "MAX",
         "splitting": {
           "name": "queue",
           "type": "keyProperty",

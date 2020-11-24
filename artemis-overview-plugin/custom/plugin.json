@@ -1,5 +1,5 @@
 {
-  "version": "2.1",
+  "version": "2.2",
   "name": "custom.jmx.vegardit.ActiveMQ_Artemis_Overview",
   "type": "JMX",
   "technologies": [ "ACTIVE_MQ" ],
@@ -44,7 +44,7 @@
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG"
+        "aggregation": "MAX"
       }
     },
     {
@@ -63,7 +63,7 @@
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG"
+        "aggregation": "MAX"
       }
     },
     {
@@ -82,7 +82,7 @@
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG"
+        "aggregation": "MAX"
       }
     },
     {
@@ -101,7 +101,7 @@
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG"
+        "aggregation": "MAX"
       }
     },
     {
@@ -120,7 +120,7 @@
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG"
+        "aggregation": "MAX"
       }
     },
     {
@@ -139,7 +139,7 @@
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG"
+        "aggregation": "MAX"
       }
     },
     {
@@ -196,7 +196,7 @@
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG"
+        "aggregation": "MAX"
       }
     },
     {
@@ -215,7 +215,7 @@
         "allowAdditionalKeys": false,
         "calculateDelta": false,
         "calculateRate": false,
-        "aggregation": "AVG"
+        "aggregation": "MAX"
       }
     }
   ]

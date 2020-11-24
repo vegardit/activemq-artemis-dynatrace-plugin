@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/) and
 ## [Unreleased]
 
 
+### Changed
+- change aggregation type from `AVG` to `MAX` for all metrics
+
+
 ## [2.1.0] - 2020-11-18
 
 ### Added
