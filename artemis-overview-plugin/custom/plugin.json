@@ -12,17 +12,44 @@
 
 
   "ui": {
+    "keymetrics": [
+      {"displayname": "Message Count", "key":"MessageCount", "aggregation":"max"}
+    ],
+    "keycharts": [
+      {"group":"ActiveMQ Artemis", "title":"Message Flow Rate", "series": [
+        {"key":"MessagesAddedRate",        "aggregation":"avg", "displayname":"Messages Added Rate (msg/s)"},
+        {"key":"MessagesAcknowledgedRate", "aggregation":"avg", "displayname":"Messages Acknowledged Rate (msg/s)", "color":"#309060"}
+      ]},
+      {"group":"ActiveMQ Artemis", "title":"Message Count", "series": [
+        {"key":"MessageCount", "aggregation":"max", "displayname":"Message Count"}
+      ]},
+      {"group":"ActiveMQ Artemis", "title":"Address Memory Usage", "series": [
+         {"key":"AddressMemoryUsage",           "aggregation":"max", "displayname":"Address Memory Usage"},
+         {"key":"AddressMemoryUsagePercentage", "aggregation":"max", "displayname":"Address Memory Usage (%)"}
+      ]},
+      {"group":"ActiveMQ Artemis", "title":"Disk Store Usage", "series": [{"key":"DiskStoreUsagePercentage", "aggregation":"max", "displayname":"Disk Store Usage (%)"}]},
+      {"group":"ActiveMQ Artemis", "title":"Connection Count", "series": [{"key":"ConnectionCount",          "aggregation":"max", "displayname":"Connection Count"}]},
+      {"group":"ActiveMQ Artemis", "title":"Consumer Count",   "series": [{"key":"ConsumerCount",            "aggregation":"max", "displayname":"Consumer Count"}]}
+    ],
     "charts": [
-      {"group":"ActiveMQ Artemis Overview", "title":"Address Memory Usage",               "series": [{"key":"AddressMemoryUsage",           "aggregation":"max", "displayname":"Address Memory Usage"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Address Memory Usage (%)",           "series": [{"key":"AddressMemoryUsagePercentage", "aggregation":"max", "displayname":"Address Memory Usage (%)"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Address Count",                      "series": [{"key":"AddressCount",                 "aggregation":"max", "displayname":"Address Count"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Queue Count",                        "series": [{"key":"QueueCount",                   "aggregation":"max", "displayname":"Queue Count"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Connection Count",                   "series": [{"key":"ConnectionCount",              "aggregation":"max", "displayname":"Connection Count"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Consumer Count",                     "series": [{"key":"ConsumerCount",                "aggregation":"max", "displayname":"Consumer Count"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Messages Added Rate (msg/s)",        "series": [{"key":"MessagesAddedRate",            "aggregation":"max", "displayname":"Messages Added Rate"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Messages Acknowledged Rate (msg/s)", "series": [{"key":"MessagesAcknowledgedRate",     "aggregation":"max", "displayname":"Messages Acknowledged Rate"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Message Count",                      "series": [{"key":"MessageCount",                 "aggregation":"max", "displayname":"Message Count"}]},
-      {"group":"ActiveMQ Artemis Overview", "title":"Disk Store Usage",                   "series": [{"key":"DiskStoreUsagePercentage",     "aggregation":"max", "displayname":"Disk Store Usage (%)"}]}
+      {"group":"ActiveMQ Artemis Overview", "title":"Address Memory Usage", "series": [
+        {"key":"AddressMemoryUsage",           "aggregation":"max", "displayname":"Address Memory Usage"},
+        {"key":"AddressMemoryUsagePercentage", "aggregation":"max", "displayname":"Address Memory Usage (%)"}
+      ]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Disk Store Usage (%)", "series": [{"key":"DiskStoreUsagePercentage", "aggregation":"max", "displayname":"Disk Store Usage (%)"}]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Address Count",        "series": [{"key":"AddressCount",             "aggregation":"max", "displayname":"Address Count"}]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Queue Count",          "series": [{"key":"QueueCount",               "aggregation":"max", "displayname":"Queue Count"}]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Connection Count",     "series": [{"key":"ConnectionCount",          "aggregation":"max", "displayname":"Connection Count"}]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Consumer Count",       "series": [{"key":"ConsumerCount",            "aggregation":"max", "displayname":"Consumer Count"}]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Message Count",        "series": [{"key":"MessageCount",             "aggregation":"max", "displayname":"Message Count"}]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Message Flow",         "series": [
+        {"key":"MessagesAdded",        "aggregation":"sum", "displayname":"Messages Added"},
+        {"key":"MessagesAcknowledged", "aggregation":"sum", "displayname":"Messages Acknowledged", "color":"#309060"}
+      ]},
+      {"group":"ActiveMQ Artemis Overview", "title":"Message Flow Rate", "series": [
+        {"key":"MessagesAddedRate",        "aggregation":"avg", "displayname":"Messages Added Rate (msg/s)"},
+        {"key":"MessagesAcknowledgedRate", "aggregation":"avg", "displayname":"Messages Acknowledged Rate (msg/s)", "color":"#309060"}
+      ]}
     ]
   },
 
@@ -144,6 +171,25 @@
     },
     {
       "timeseries": {
+        "key": "MessagesAdded",
+        "unit": "Count",
+        "displayname": "Messages Added",
+        "dimensions": [ "rx_pid" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "*"
+        },
+        "attribute": "TotalMessagesAdded",
+        "allowAdditionalKeys": false,
+        "calculateDelta": true,
+        "calculateRate": false,
+        "aggregation": "MAX"
+      }
+    },
+    {
+      "timeseries": {
         "key": "MessagesAddedRate",
         "unit": "Count",
         "displayname": "Messages Added Rate",
@@ -158,6 +204,25 @@
         "allowAdditionalKeys": false,
         "calculateDelta": true,
         "calculateRate": true,
+        "aggregation": "MAX"
+      }
+    },
+    {
+      "timeseries": {
+        "key": "MessagesAcknowledged",
+        "unit": "Count",
+        "displayname": "Messages Acknowledged",
+        "dimensions": [ "rx_pid" ]
+      },
+      "source": {
+        "domain": "org.apache.activemq.artemis",
+        "keyProperties": {
+          "broker": "*"
+        },
+        "attribute": "TotalMessagesAcknowledged",
+        "allowAdditionalKeys": false,
+        "calculateDelta": true,
+        "calculateRate": false,
         "aggregation": "MAX"
       }
     },

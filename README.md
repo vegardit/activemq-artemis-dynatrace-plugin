@@ -19,7 +19,9 @@ Custom [Dynatrace](https://www.dynatrace.de/) [JMX](https://en.wikipedia.org/wik
 
 This plugin provides general broker statistics such as address memory usage, connection/consumer count, total message count, total messages added/acknowledged rate.
 
-![](img/artemis_overview_plugin.png)
+![](img/artemis_overview_keymetrics.png)
+
+![](img/artemis_overview_details.png)
 
 ### Artemis Queues Plugin
 
@@ -27,6 +29,7 @@ This provides detailed per-queue statistics such as current message count, messa
 
 **IMPORTANT:** Activating the **Artemis Queues Plugin** on brokers with a VERY large number of queues may result in an overload of the broker process (100% CPU usage, denial of service) caused by the thousands of periodic JMX requests made by Dynatrace.
 
+![](img/artemis_queues_details.png)
 
 ## <a name="install"></a>Installation
 

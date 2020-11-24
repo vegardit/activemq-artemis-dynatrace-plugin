@@ -13,14 +13,18 @@
 
   "ui": {
     "charts": [
-      {"group":"ActiveMQ Artemis Queues", "title":"Consumer Count",                     "series": [{"key":"ConsumerCountByQueue",            "aggregation":"max", "displayname":"Consumer Count"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Message Count",                      "series": [{"key":"MessageCountByQueue",             "aggregation":"max", "displayname":"Message Count"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Messages Added",                     "series": [{"key":"MessagesAddedByQueue",            "aggregation":"max", "displayname":"Messages Added"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Messages Added Rate (msg/s)",        "series": [{"key":"MessagesAddedRateByQueue",        "aggregation":"max", "displayname":"Messages Added Rate"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Messages Acknowledged",              "series": [{"key":"MessagesAcknowledgedByQueue",     "aggregation":"max", "displayname":"Messages Acknowledged"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Messages Acknowledged Rate (msg/s)", "series": [{"key":"MessagesAcknowledgedRateByQueue", "aggregation":"max", "displayname":"Messages Acknowledged Rate"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Messages Expired",                   "series": [{"key":"MessagesExpiredByQueue",          "aggregation":"max", "displayname":"Message Expired"}]},
-      {"group":"ActiveMQ Artemis Queues", "title":"Messages Killed",                    "series": [{"key":"MessagesKilledByQueue",           "aggregation":"max", "displayname":"Message Killed"}]}
+      {"group":"ActiveMQ Artemis Queues", "title":"Consumer Count",    "series": [{"key":"ConsumerCountByQueue",   "aggregation":"max", "displayname":"Consumer Count"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Message Count",     "series": [{"key":"MessageCountByQueue",    "aggregation":"max", "displayname":"Message Count"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Messages Expired",  "series": [{"key":"MessagesExpiredByQueue", "aggregation":"max", "displayname":"Message Expired"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Messages Killed",   "series": [{"key":"MessagesKilledByQueue",  "aggregation":"max", "displayname":"Message Killed"}]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Message Flow",      "series": [
+        {"key":"MessagesAddedByQueue",        "aggregation":"sum", "displayname":"Messages Added"},
+        {"key":"MessagesAcknowledgedByQueue", "aggregation":"sum", "displayname":"Messages Acknowledged", "color":"#309060"}
+      ]},
+      {"group":"ActiveMQ Artemis Queues", "title":"Message Flow Rate", "series": [
+        {"key":"MessagesAddedRateByQueue",        "aggregation":"avg", "displayname":"Messages Added Rate (msg/s)"},
+        {"key":"MessagesAcknowledgedRateByQueue", "aggregation":"avg", "displayname":"Messages Acknowledged Rate (msg/s)", "color":"#309060"}
+      ]}
     ]
   },
 

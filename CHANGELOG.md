@@ -7,16 +7,23 @@ This project adheres to [Semantic Versioning](http://semver.org/) and
 ## [Unreleased]
 
 
+### Added
+- overview plugin: "Message Count" as key metric
+- overview plugin: keycharts section
+
 ### Changed
 - change aggregation type from `AVG` to `MAX` for all metrics
+- overview plugin: group "Address Memory Usage" and "Address Memory Usage (%)"
+- group "Messages Added Rate" and "Messages Acknowledged Rate" as "Message Flow"
+- set color for "Messages Acknowledged Rate" values to green
 
 
 ## [2.1.0] - 2020-11-18
 
 ### Added
-- add "Disk Store Usage (%)" metric to overview plugin
-- add "Address/Queue count" metrics to overview plugin
-- add "Messages Killed" metric to queues plugin
+- overview plugin: "Disk Store Usage (%)" metric
+- overview plugin: "Address/Queue count" metrics
+- queues plugin: "Messages Killed" metric
 
 
 ## [2.0.0] - 2020-05-10
