@@ -28,7 +28,7 @@ metrics:
     key: ConsumerCountByQueue
     unit: Count
     displayname: Consumer Count by Queue
-    dimensions: [ rx_pid ]
+    dimensions: [ rx_pid, queue ]
   source: &source_defaults
     domain: org.apache.activemq.artemis
     keyProperties:
