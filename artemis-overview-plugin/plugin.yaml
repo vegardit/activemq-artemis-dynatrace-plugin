@@ -1,0 +1,171 @@
+version: '2.2'
+name: custom.jmx.vegardit.ActiveMQ_Artemis_Overview
+type: JMX
+technologies: [ ACTIVE_MQ ]
+entity: PROCESS_GROUP_INSTANCE
+metricGroup: activemq.artemis.overview
+
+configUI:
+  displayName: ActiveMQ Artemis Overview
+
+ui:
+  keymetrics:
+  - displayname: Message Count
+    key: MessageCount
+    aggregation: max
+
+  keycharts:
+  - {"group":"ActiveMQ Artemis", "title":"Message Flow Rate", "series": [
+      {"key":"MessagesAddedRate",        "aggregation":"avg", "displayname":"Messages Added Rate (msg/s)"},
+      {"key":"MessagesAcknowledgedRate", "aggregation":"avg", "displayname":"Messages Acknowledged Rate (msg/s)", "color":"#309060"}
+    ]}
+  - {"group":"ActiveMQ Artemis", "title":"Message Count", "series": [
+      {"key":"MessageCount", "aggregation":"max", "displayname":"Message Count"}
+    ]}
+  - {"group":"ActiveMQ Artemis", "title":"Address Memory Usage", "series": [
+      {"key":"AddressMemoryUsage",           "aggregation":"max", "displayname":"Address Memory Usage"},
+      {"key":"AddressMemoryUsagePercentage", "aggregation":"max", "displayname":"Address Memory Usage (%)"}
+    ]}
+  - {"group":"ActiveMQ Artemis", "title":"Disk Store Usage", "series": [{"key":"DiskStoreUsagePercentage", "aggregation":"max", "displayname":"Disk Store Usage (%)"}]}
+  - {"group":"ActiveMQ Artemis", "title":"Connection Count", "series": [{"key":"ConnectionCount",          "aggregation":"max", "displayname":"Connection Count"}]}
+  - {"group":"ActiveMQ Artemis", "title":"Consumer Count",   "series": [{"key":"ConsumerCount",            "aggregation":"max", "displayname":"Consumer Count"}]}
+
+  charts:
+  - {"group":"ActiveMQ Artemis Overview", "title":"Address Memory Usage", "series": [
+      {"key":"AddressMemoryUsage",           "aggregation":"max", "displayname":"Address Memory Usage"},
+      {"key":"AddressMemoryUsagePercentage", "aggregation":"max", "displayname":"Address Memory Usage (%)"}
+    ]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"Disk Store Usage (%)", "series": [{"key":"DiskStoreUsagePercentage", "aggregation":"max", "displayname":"Disk Store Usage (%)"}]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"Address Count",        "series": [{"key":"AddressCount",             "aggregation":"max", "displayname":"Address Count"}]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"Queue Count",          "series": [{"key":"QueueCount",               "aggregation":"max", "displayname":"Queue Count"}]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"Connection Count",     "series": [{"key":"ConnectionCount",          "aggregation":"max", "displayname":"Connection Count"}]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"Consumer Count",       "series": [{"key":"ConsumerCount",            "aggregation":"max", "displayname":"Consumer Count"}]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"Message Count",        "series": [{"key":"MessageCount",             "aggregation":"max", "displayname":"Message Count"}]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"Message Flow",         "series": [
+      {"key":"MessagesAdded",        "aggregation":"sum", "displayname":"Messages Added"},
+      {"key":"MessagesAcknowledged", "aggregation":"sum", "displayname":"Messages Acknowledged", "color":"#309060"}
+    ]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"Message Flow Rate", "series": [
+     {"key":"MessagesAddedRate",        "aggregation":"avg", "displayname":"Messages Added Rate (msg/s)"},
+     {"key":"MessagesAcknowledgedRate", "aggregation":"avg", "displayname":"Messages Acknowledged Rate (msg/s)", "color":"#309060"}
+    ]}
+
+metrics:
+- timeseries:
+    key: AddressMemoryUsage
+    unit: Byte
+    displayname: Address Memory Usage
+    dimensions: [ rx_pid ]
+  source: &source_defaults
+    domain: org.apache.activemq.artemis
+    keyProperties:
+      broker: "*"
+    attribute: AddressMemoryUsage
+    allowAdditionalKeys: false
+    calculateDelta: false
+    calculateRate: false
+    aggregation: MAX
+
+- timeseries:
+    key: AddressMemoryUsagePercentage
+    unit: Percent
+    displayname: Address Memory Usage (%)
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: AddressMemoryUsagePercentage
+
+- timeseries:
+    key: AddressCount
+    unit: Count
+    displayname: Address Count
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: AddressCount
+- timeseries:
+    key: QueueCount
+    unit: Count
+    displayname: Queue Count
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: QueueCount
+
+- timeseries:
+    key: ConnectionCount
+    unit: Count
+    displayname: Connection Count
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: ConnectionCount
+
+- timeseries:
+    key: ConsumerCount
+    unit: Count
+    displayname: Consumer Count
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: TotalConsumerCount
+
+- timeseries:
+    key: MessagesAdded
+    unit: Count
+    displayname: Messages Added
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: TotalMessagesAdded
+    calculateDelta: true
+
+- timeseries:
+    key: MessagesAddedRate
+    unit: Count
+    displayname: Messages Added Rate
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: TotalMessagesAdded
+    calculateDelta: true
+    calculateRate: true
+
+- timeseries:
+    key: MessagesAcknowledged
+    unit: Count
+    displayname: Messages Acknowledged
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: TotalMessagesAcknowledged
+    calculateDelta: true
+
+- timeseries:
+    key: MessagesAcknowledgedRate
+    unit: Count
+    displayname: Messages Acknowledged Rate
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: TotalMessagesAcknowledged
+    calculateDelta: true
+    calculateRate: true
+
+- timeseries:
+    key: MessageCount
+    unit: Count
+    displayname: Message Count
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: TotalMessageCount
+
+- timeseries:
+    key: DiskStoreUsagePercentage
+    unit: Percent
+    displayname: Disk Store Usage (%)
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: DiskStoreUsage
