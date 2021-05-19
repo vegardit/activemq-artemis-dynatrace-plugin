@@ -59,10 +59,10 @@ jobs:
         minor_version=$(git show -s --format=%ct)
 
         # suffix the version with the commit SHA
-        yq -j e ".version = .version + \".$minor_version\"" artemis-overview-plugin/plugin.yaml > /tmp/custom/plugin.json
+        yq -j e ".version |= sub(\"-SNAPSHOT\", \"\") + \".$minor_version\"" artemis-overview-plugin/plugin.yaml > /tmp/custom/plugin.json
         (cd /tmp && zip -r ./artemis-overview-plugin.zip ./custom/*)
 
-        yq -j e ".version = .version + \".$minor_version\"" artemis-queues-plugin/plugin.yaml > /tmp/custom/plugin.json
+        yq -j e ".version |= sub(\"-SNAPSHOT\", \"\") + \".$minor_version\"" artemis-queues-plugin/plugin.yaml > /tmp/custom/plugin.json
         (cd /tmp && zip -r ./artemis-queues-plugin.zip ./custom/*)
 
     - name: Delete "latest" Release

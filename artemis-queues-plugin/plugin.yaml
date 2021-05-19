@@ -1,4 +1,4 @@
-version: '2.2'
+version: '2.2-SNAPSHOT'
 name: custom.jmx.vegardit.ActiveMQ_Artemis_Queues
 type: JMX
 technologies: [ ACTIVE_MQ ]
