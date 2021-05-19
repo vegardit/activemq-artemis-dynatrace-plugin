@@ -1,11 +1,15 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/) and
-[Keep a CHANGELOG](http://keepachangelog.com/).
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 
 ## [Unreleased]
 
+### Fixed
+- [github Issues #1](https://github.com/vegardit/activemq-artemis-dynatrace-plugin/issues/1) add missing queue dimension to ConsumerCountByQueue timeseries
 
 ### Added
 - overview plugin: "Message Count" as key metric
