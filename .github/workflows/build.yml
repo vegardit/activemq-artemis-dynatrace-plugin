@@ -45,30 +45,9 @@ jobs:
 
         echo "/tmp/yq" >> $GITHUB_PATH
 
-    - name: Validate YAML
+    - name: Generate plugin zip files
       run: |
-        for f in */plugin.yaml; do
-          echo "Validating [$f]..."
-          /tmp/yq/yq e $f>/dev/null
-        done
-
-    - name: Create plugin zip files
-      if: github.ref == 'refs/heads/main'
-      run: |
-        set -eux
-
-        rm -rf /tmp/custom
-        mkdir /tmp/custom
-
-        # use last commit time unix epoch value as minor version
-        minor_version=$(git show -s --format=%ct)
-
-        # suffix the version with the commit SHA
-        yq -j e ".version |= sub(\"-SNAPSHOT\", \"\") + \".$minor_version\"" artemis-overview-plugin/plugin.yaml > /tmp/custom/plugin.json
-        (cd /tmp && zip -r ./artemis-overview-plugin-latest.zip ./custom/*)
-
-        yq -j e ".version |= sub(\"-SNAPSHOT\", \"\") + \".$minor_version\"" artemis-queues-plugin/plugin.yaml > /tmp/custom/plugin.json
-        (cd /tmp && zip -r ./artemis-queues-plugin-latest.zip ./custom/*)
+        DEBUG=1 bash build.sh
 
     - name: Delete "latest" Release
       if: github.ref == 'refs/heads/main'
@@ -96,7 +75,7 @@ jobs:
       id: create_release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "/tmp/artemis-overview-plugin-latest.zip,/tmp/artemis-queues-plugin-latest.zip"
+        artifacts: "work/artemis-overview-plugin-latest.zip,work/artemis-queues-plugin-latest.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
         draft: false
         prerelease: false
