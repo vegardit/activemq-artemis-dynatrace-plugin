@@ -1,3 +1,8 @@
+# Copyright 2019-2021 by Vegard IT GmbH, Germany, https://vegardit.com
+# SPDX-License-Identifier: Apache-2.0
+#
+# Author: Sebastian Thomschke, Vegard IT GmbH
+#
 # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions
 name: Build
 
@@ -8,15 +13,13 @@ on:
     tags-ignore:
     - '**'
     paths:
+    - '.github/workflows/build.yml'
     - '**/plugin.yaml'
   pull_request:
     paths:
     - '**/plugin.yaml'
   workflow_dispatch:
     # https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
-
-env:
-  CURL: "curl -fsSL --retry 3 --retry-delay 5"
 
 jobs:
 
@@ -32,20 +35,22 @@ jobs:
       run: |
         set -eux
 
-        curl_with_token="$CURL -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}'" # to prevent rate-limit
-
-        yq_download_url=$(eval $curl_with_token https://api.github.com/repos/mikefarah/yq/releases/latest | grep browser_download_url | grep yq_linux_amd64\" | cut "-d\"" -f4)
+        yq_version=$(curl -sSfL -o /dev/null -w "%{url_effective}\n" https://github.com/mikefarah/yq/releases/latest | grep -o '[^/]*$')
+        yq_download_url="https://github.com/mikefarah/yq/releases/download/$yq_version/yq_linux_amd64"
         echo "Downloading [$yq_download_url]..."
         mkdir /tmp/yq
-        eval $curl_with_token -o /tmp/yq/yq "$yq_download_url"
+        curl -fsSL --retry 3 --retry-delay 5 -o /tmp/yq/yq "$yq_download_url"
         chmod 777 /tmp/yq/yq
-        echo "/tmp/yq" >> $GITHUB_PATH
-
         /tmp/yq/yq --version
+
+        echo "/tmp/yq" >> $GITHUB_PATH
 
     - name: Validate YAML
       run: |
-        for f in */plugin.yaml; do echo "Validating $f..."; /tmp/yq/yq e $f>/dev/null; done
+        for f in */plugin.yaml; do
+          echo "Validating [$f]..."
+          /tmp/yq/yq e $f>/dev/null
+        done
 
     - name: Create plugin zip files
       if: github.ref == 'refs/heads/master'
