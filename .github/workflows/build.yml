@@ -53,7 +53,7 @@ jobs:
         done
 
     - name: Create plugin zip files
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       run: |
         set -eux
 
@@ -65,13 +65,13 @@ jobs:
 
         # suffix the version with the commit SHA
         yq -j e ".version |= sub(\"-SNAPSHOT\", \"\") + \".$minor_version\"" artemis-overview-plugin/plugin.yaml > /tmp/custom/plugin.json
-        (cd /tmp && zip -r ./artemis-overview-plugin.zip ./custom/*)
+        (cd /tmp && zip -r ./artemis-overview-plugin-latest.zip ./custom/*)
 
         yq -j e ".version |= sub(\"-SNAPSHOT\", \"\") + \".$minor_version\"" artemis-queues-plugin/plugin.yaml > /tmp/custom/plugin.json
-        (cd /tmp && zip -r ./artemis-queues-plugin.zip ./custom/*)
+        (cd /tmp && zip -r ./artemis-queues-plugin-latest.zip ./custom/*)
 
     - name: Delete "latest" Release
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       run: |
         set -eux
 
@@ -92,35 +92,12 @@ jobs:
         fi
 
     - name: Create "latest" Release
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       id: create_release
-      uses: actions/create-release@v1 # https://github.com/actions/upload-release-asset
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+      uses: ncipollo/release-action@v1
       with:
-        tag_name: "latest"
-        release_name: "latest"
+        artifacts: "/tmp/artemis-overview-plugin-latest.zip,/tmp/artemis-queues-plugin-latest.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
         draft: false
         prerelease: false
-
-    - name: Attach artemis-overview-plugin-latest.zip
-      if: github.ref == 'refs/heads/master'
-      uses: actions/upload-release-asset@v1
-      env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with: 
-        upload_url: ${{ steps.create_release.outputs.upload_url}}
-        asset_content_type: application/zip
-        asset_name: artemis-overview-plugin-latest.zip
-        asset_path: /tmp/artemis-overview-plugin.zip
-
-    - name: Attach artemis-queues-plugin-latest.zip
-      if: github.ref == 'refs/heads/master'
-      uses: actions/upload-release-asset@v1
-      env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with: 
-        upload_url: ${{ steps.create_release.outputs.upload_url}}
-        asset_content_type: application/zip
-        asset_name: artemis-queues-plugin-latest.zip
-        asset_path: /tmp/artemis-queues-plugin.zip
+        tag: latest 
