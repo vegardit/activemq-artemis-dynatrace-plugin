@@ -42,17 +42,17 @@ fi
 #################################################
 # check prereqs
 #################################################
-if ! hash "git" &>/dev/null; then
+if ! hash git &>/dev/null; then
   echo "Error: command 'git' not found."
   exit 1
 fi
 
-if ! hash "zip" &>/dev/null; then
+if ! hash zip &>/dev/null; then
   echo "Error: command 'zip' not found."
   exit 1
 fi
 
-if ! hash "yq" &>/dev/null; then
+if ! hash yq &>/dev/null; then
   echo "Error: command 'yq' not found. Please install from https://github.com/mikefarah/yq/releases/"
   exit 1
 fi
