@@ -39,6 +39,7 @@ ui:
   - {"group":"ActiveMQ Artemis Overview", "title":"Address Count",        "series": [{"key":"AddressCount",             "aggregation":"max", "displayname":"Address Count"}]}
   - {"group":"ActiveMQ Artemis Overview", "title":"Queue Count",          "series": [{"key":"QueueCount",               "aggregation":"max", "displayname":"Queue Count"}]}
   - {"group":"ActiveMQ Artemis Overview", "title":"Connection Count",     "series": [{"key":"ConnectionCount",          "aggregation":"max", "displayname":"Connection Count"}]}
+  - {"group":"ActiveMQ Artemis Overview", "title":"New Connections Rate", "series": [{"key":"NewConnectionsRate",       "aggregation":"max", "displayname":"New Connections Rate"}]}
   - {"group":"ActiveMQ Artemis Overview", "title":"Consumer Count",       "series": [{"key":"ConsumerCount",            "aggregation":"max", "displayname":"Consumer Count"}]}
   - {"group":"ActiveMQ Artemis Overview", "title":"Message Count",        "series": [{"key":"MessageCount",             "aggregation":"max", "displayname":"Message Count"}]}
   - {"group":"ActiveMQ Artemis Overview", "title":"Message Flow",         "series": [
@@ -100,6 +101,17 @@ metrics:
   source:
     <<: *source_defaults
     attribute: ConnectionCount
+
+- timeseries:
+    key: NewConnectionsRate
+    unit: Count
+    displayname: New Connections Rate
+    dimensions: [ rx_pid ]
+  source:
+    <<: *source_defaults
+    attribute: TotalConnectionCount
+    calculateDelta: true
+    calculateRate: true
 
 - timeseries:
     key: ConsumerCount
