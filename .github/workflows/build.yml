@@ -1,16 +1,16 @@
-# Copyright 2019-2021 by Vegard IT GmbH, Germany, https://vegardit.com
+# SPDX-FileCopyrightText: © Vegard IT GmbH (https://vegardit.com)
+# SPDX-FileContributor: Sebastian Thomschke
 # SPDX-License-Identifier: Apache-2.0
-#
-# Author: Sebastian Thomschke, Vegard IT GmbH
+# SPDX-ArtifactOfProjectHomePage: https://github.com/vegardit/activemq-artemis-dynatrace-plugin
 #
 # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions
 name: Build
 
 on:
   push:
-    branches:
+    branches:    # build all branches
     - '**'
-    tags-ignore:
+    tags-ignore: # but don't build tags
     - '**'
     paths:
     - '.github/workflows/build.yml'
@@ -21,6 +21,10 @@ on:
   workflow_dispatch:
     # https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
 
   build:
@@ -30,53 +34,45 @@ jobs:
     - name: Git Checkout
       uses: actions/checkout@v3 #https://github.com/actions/checkout
 
-    - name: "Install: yq" # https://github.com/mikefarah/yq
-      shell: bash
-      run: |
-        set -eux
-
-        yq_version=$(curl -sSfL -o /dev/null -w "%{url_effective}\n" https://github.com/mikefarah/yq/releases/latest | grep -o '[^/]*$')
-        yq_download_url="https://github.com/mikefarah/yq/releases/download/$yq_version/yq_linux_amd64"
-        echo "Downloading [$yq_download_url]..."
-        mkdir /tmp/yq
-        curl -fsSL --retry 3 --retry-delay 5 -o /tmp/yq/yq "$yq_download_url"
-        chmod 777 /tmp/yq/yq
-        /tmp/yq/yq --version
-
-        echo "/tmp/yq" >> $GITHUB_PATH
+    - name: Setup yq
+      uses: vegardit/gha-setup-yq@v1
 
     - name: Generate plugin zip files
       run: |
         DEBUG=1 bash build.sh
 
-    - name: Delete "latest" Release
-      if: github.ref == 'refs/heads/main'
+    - name: "Delete previous 'latest' release"
+      if: ${{ github.ref_name == 'main' && !env.ACT }} # https://github.com/nektos/act#skipping-steps
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set -eu
+
+        api_base_url="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY"
+
+        # delete 'latest' github release
+        release_id=$(curl -fsL -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/$GITHUB_REPOSITORY/releases | jq -r '.[] | select(.name == "latest") | .id')
+        if [[ -n $release_id ]]; then
+           echo "Deleting release [$api_base_url/releases/$release_id]..."
+           curl -H "Authorization: token $GITHUB_TOKEN" -fsSL -X DELETE "$api_base_url/releases/$release_id"
+        fi
+
+        # delete 'latest' git tag
+        tag_url="$api_base_url/git/refs/tags/latest"
+        if curl -H "Authorization: token $GITHUB_TOKEN" -fsLo /dev/null --head "$tag_url"; then
+           echo "Deleting tag [$tag_url]..."
+           curl -H "Authorization: token $GITHUB_TOKEN" -fsSL -X DELETE "$tag_url"
+        fi
+
+    - name: "Create 'latest' release"
+      if: ${{ github.ref_name == 'main' && !env.ACT }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         set -eux
 
-        creds="${{ secrets.GH_API_TOKEN }}:x-oauth-basic"
-        api_base_url="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY"
-
-        # delete release
-        latest_release_url="$api_base_url/releases/latest"
-        if curl -u $creds -fsLo /dev/null --head "$latest_release_url"; then
-           release_id=$(curl -u $creds -sL "$latest_release_url" | jq -r .id)
-           curl -u $creds -fsSL -X DELETE "$api_base_url/releases/$release_id"
-        fi
-
-        # delete tag
-        latest_tag_url="$api_base_url/git/refs/tags/latest"
-        if curl -u $creds -fsLo /dev/null --head "$latest_tag_url"; then
-           curl -u $creds -fsSL -u $creds -X DELETE "$latest_tag_url"
-        fi
-
-    - name: Create "latest" Release
-      if: github.ref == 'refs/heads/main'
-      id: create_release
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "work/artemis-overview-plugin-latest.zip,work/artemis-queues-plugin-latest.zip"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        draft: false
-        prerelease: false
-        tag: latest 
+        # https://hub.github.com/hub-release.1.html
+        hub release create "latest" \
+          --message "latest" \
+          --attach "work/artemis-overview-plugin-latest.zip" \
+          --attach "work/artemis-queues-plugin-latest.zip"
