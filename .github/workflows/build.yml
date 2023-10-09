@@ -3,14 +3,14 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-ArtifactOfProjectHomePage: https://github.com/vegardit/activemq-artemis-dynatrace-plugin
 #
-# https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 name: Build
 
 on:
   push:
-    branches:    # build all branches
-    - '**'
-    tags-ignore: # but don't build tags
+    branches-ignore: # build all branches except:
+    - 'dependabot/**' # prevent GHA triggered twice (once for commit to the branch and once for opening/syncing the PR)
+    tags-ignore: # don't build tags
     - '**'
     paths:
     - '.github/workflows/build.yml'
@@ -29,50 +29,43 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+
     steps:
 
     - name: Git Checkout
-      uses: actions/checkout@v4 #https://github.com/actions/checkout
+      uses: actions/checkout@v4 # https://github.com/actions/checkout
+
 
     - name: Setup yq
       uses: vegardit/gha-setup-yq@v1
+
 
     - name: Generate plugin zip files
       run: |
         DEBUG=1 bash build.sh
 
+
     - name: "Delete previous 'latest' release"
       if: ${{ github.ref_name == 'main' && !env.ACT }} # https://github.com/nektos/act#skipping-steps
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        RELEASE_NAME: latest
+      # https://cli.github.com/manual/gh_release_delete
       run: |
-        set -eu
+        GH_DEBUG=1 gh release delete "$RELEASE_NAME" --yes --cleanup-tag || true
 
-        api_base_url="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY"
-
-        # delete 'latest' github release
-        release_id=$(curl -fsL -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/$GITHUB_REPOSITORY/releases | jq -r '.[] | select(.name == "latest") | .id')
-        if [[ -n $release_id ]]; then
-           echo "Deleting release [$api_base_url/releases/$release_id]..."
-           curl -H "Authorization: token $GITHUB_TOKEN" -fsSL -X DELETE "$api_base_url/releases/$release_id"
-        fi
-
-        # delete 'latest' git tag
-        tag_url="$api_base_url/git/refs/tags/latest"
-        if curl -H "Authorization: token $GITHUB_TOKEN" -fsLo /dev/null --head "$tag_url"; then
-           echo "Deleting tag [$tag_url]..."
-           curl -H "Authorization: token $GITHUB_TOKEN" -fsSL -X DELETE "$tag_url"
-        fi
 
     - name: "Create 'latest' release"
       if: ${{ github.ref_name == 'main' && !env.ACT }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        RELEASE_NAME: latest
+      # https://cli.github.com/manual/gh_release_create
       run: |
-        set -eux
-
-        # https://hub.github.com/hub-release.1.html
-        hub release create "latest" \
-          --message "latest" \
-          --attach "work/artemis-overview-plugin-latest.zip" \
-          --attach "work/artemis-queues-plugin-latest.zip"
+        GH_DEBUG=1 gh release create "$RELEASE_NAME" \
+          --prerelease \
+          --latest \
+          --notes "${{ github.event.head_commit.message }}" \
+          --target "${{ github.sha }}" \
+          work/artemis-overview-plugin-latest.zip \
+          work/artemis-queues-plugin-latest.zip
