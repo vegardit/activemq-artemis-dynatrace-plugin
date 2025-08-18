@@ -33,7 +33,7 @@ jobs:
     steps:
 
     - name: Git Checkout
-      uses: actions/checkout@v4 # https://github.com/actions/checkout
+      uses: actions/checkout@v5 # https://github.com/actions/checkout
 
 
     - name: Setup yq
